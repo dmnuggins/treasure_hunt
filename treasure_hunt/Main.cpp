@@ -11,10 +11,7 @@ const int mapCols = 10;
 class Player {
 public:
 	Player();
-	void Up();
-	void Down();
-	void Left();
-	void Right();
+	void MovePlayer(char direction);
 	int GetRow();
 	int GetCol();
 	char GetID();
@@ -27,7 +24,6 @@ private:
 class Map {
 public:
 	void PrintMap(Player &p1);
-	void MovePlayer(Player &p1, char direction);
 private:
 
 };
@@ -46,7 +42,7 @@ int main() {
 
 	while (toggle != 'p') {
 		cin >> toggle;
-		map.MovePlayer(player, toggle);
+		player.MovePlayer(toggle);
 		map.PrintMap(player);
 		cout << "toggle: " << toggle << endl;
 	}
@@ -59,24 +55,27 @@ int main() {
 
 Player::Player() {
 	ID = 'P';
-	row = 4;
-	col = 2;
+	row = 0;
+	col = 0;
 }
 
-void Player::Up() {
-	row -= 1;
-}
-
-void Player::Down() {
-	row += 1;
-}
-
-void Player::Left() {
-	col -= 1;
-}
-
-void Player::Right() {
-	col += 1;
+void Player::MovePlayer(char direction) {
+	switch (direction) {
+	case 'w':
+		row -= 1;
+		break;
+	case 'a':
+		col -= 1;
+		break;
+	case 's':
+		row += 1;
+		break;
+	case 'd':
+		col += 1;
+		break;
+	default:
+		break;
+	}
 }
 
 int Player::GetRow() {
@@ -108,25 +107,4 @@ void Map::PrintMap(Player &player) {
 	cout << "row: " << player.GetRow() << endl;
 	cout << "row: " << player.GetCol() << endl;
 
-}
-
-void Map::MovePlayer(Player &player, char direction) {
-	switch (direction) {
-	case 'w':
-		player.Up();
-		break;
-	case 'a':
-		player.Left();
-		break;
-	case 's':
-		player.Down();
-		break;
-	case 'd':
-		player.Right();
-		break;
-	default:
-		break;
-	}
-	cout << "new_row: " << player.GetRow() << endl;
-	cout << "new_col: " << player.GetCol() << endl;
 }
