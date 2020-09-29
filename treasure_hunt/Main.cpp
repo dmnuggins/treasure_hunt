@@ -12,6 +12,7 @@ class Player {
 public:
 	Player();
 	void MovePlayer(char direction);
+	bool CheckBounds(int coordinate);
 	int GetRow();
 	int GetCol();
 	char GetID();
@@ -46,9 +47,6 @@ int main() {
 		map.PrintMap(player);
 		cout << "toggle: " << toggle << endl;
 	}
-	
-
-	//PrintMap(player);
 
 	return 0;
 }
@@ -60,24 +58,53 @@ Player::Player() {
 }
 
 void Player::MovePlayer(char direction) {
+
 	switch (direction) {
 	case 'w':
-		row -= 1;
+		if (CheckBounds(row - 1)) {
+			row -= 1;
+		}
+		else {
+			cout << "[WARNING] Out of Bounds" << endl;
+		}
 		break;
 	case 'a':
-		col -= 1;
+		if (CheckBounds(col - 1)) {
+			col -= 1;
+		}
+		else {
+			cout << "[WARNING] Out of Bounds" << endl;
+		}
 		break;
 	case 's':
-		row += 1;
+		if (CheckBounds(row + 1)) {
+			row += 1;
+		}
+		else {
+			cout << "[WARNING] Out of Bounds" << endl;
+		}
 		break;
 	case 'd':
-		col += 1;
+		if (CheckBounds(col + 1)) {
+			col += 1;
+		}
+		else {
+			cout << "[WARNING] Out of Bounds" << endl;
+		}
 		break;
 	default:
 		break;
 	}
 }
 
+bool Player::CheckBounds(int coordinate) {
+	if (coordinate > 9 || coordinate < 0) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
 int Player::GetRow() {
 	return row;
 }
