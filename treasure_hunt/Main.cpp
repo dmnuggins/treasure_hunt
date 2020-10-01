@@ -21,7 +21,7 @@ int main() {
 
 	while (toggle != 'p') {
 		cin >> toggle;
-		player.MovePlayer(toggle);
+		map.MovePlayer(player, toggle);
 		map.PrintMap(player);
 		cout << "toggle: " << toggle << endl;
 	}
