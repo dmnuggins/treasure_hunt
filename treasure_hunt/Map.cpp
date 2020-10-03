@@ -20,22 +20,22 @@ void Map::MovePlayer(Player& player, char direction) {
 	switch (direction)
 	{
 	case 'w':
-		if (BoundsCheck(player, direction)) {
+		if (NotColliding(player, direction)) {
 			player.row -= 1;
 		}
 		break;
 	case 'a':
-		if (BoundsCheck(player, direction)) {
+		if (NotColliding(player, direction)) {
 			player.col -= 1;
 		}
 		break;
 	case 's':
-		if (BoundsCheck(player, direction)) {
+		if (NotColliding(player, direction)) {
 			player.row += 1;
 		}
 		break;
 	case 'd':
-		if (BoundsCheck(player, direction)) {
+		if (NotColliding(player, direction)) {
 			player.col += 1;
 		}
 		break;
@@ -79,6 +79,7 @@ void Map::PopulateMap() {
 	}
 }
 
+//checks if the passed in coordinate matches the designated room coordinates
 bool Map::CheckRooms(int row, int col) {
 	for (int i = 0; i < 9; i++) {
 		if (ROOM_COORDINATES[i][0] == row && ROOM_COORDINATES[i][1] == col) {
@@ -88,17 +89,62 @@ bool Map::CheckRooms(int row, int col) {
 	return false;
 }
 
-bool Map::BoundsCheck(Player& player, char direction){
-	bool edgeCollide, roomCollide;
+// checks if the player is breaking any boundaries (room/edge of map)
+bool Map::NotColliding(Player& player, char direction){
+	bool edgeCollide, roomCollide, notColliding = true;
 	// outer map check
-
+	edgeCollide = IsCollidingWithEdge(player, direction);
+	cout << "edgeCollide: " << edgeCollide << endl;
 	// room collision check
 	roomCollide = IsCollidingWithRoom(player, direction);
+	cout << "roomCollide: " << roomCollide << endl;
 
-	if (!roomCollide) {
-		return true;
+	if (edgeCollide) {
+		notColliding = false;
 	}
+	if (roomCollide) {
+		notColliding = false;
+	}
+	return notColliding;
+}
 
+bool Map::IsCollidingWithEdge(Player& player, char direction) {
+	switch (direction)
+	{
+	case 'w':
+		if (player.row - 1 < 0) {
+			cout << "Player r: " << player.row - 1 << endl;
+			cout << "Player c: " << player.col << endl;
+
+			return true;
+		}
+		break;
+	case 'a':
+		if (player.col - 1 < 0) {
+			cout << "Player r: " << player.row << endl;
+			cout << "Player c: " << player.col - 1 << endl;
+
+			return true;
+		}
+		break;
+	case 'd':
+		if (player.col + 1 > 8) {
+			cout << "Player r: " << player.row << endl;
+			cout << "Player c: " << player.col + 1 << endl;
+			return true;
+		}
+		break;
+	case 's':
+		if (player.row + 1 > 8) {
+			cout << "Player r: " << player.row + 1 << endl;
+			cout << "Player c: " << player.col << endl;
+			return true;
+		}
+		break;
+	default:
+		return false;
+		break;
+	}
 	return false;
 }
 

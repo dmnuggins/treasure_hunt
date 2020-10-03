@@ -12,15 +12,6 @@ Player::Player() {
 	isContained = false;
 }
 
-bool Player::CheckBounds(int coordinate) {
-	if (coordinate > 8 || coordinate < 0) {
-		return false;
-	}
-	else {
-		return true;
-	}
-}
-
 int Player::GetRow() {
 	return row;
 }
