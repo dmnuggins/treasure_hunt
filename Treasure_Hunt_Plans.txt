@@ -1,0 +1,90 @@
+9x9 Treasure Hunt Game:
+- 1 Player
+- 2 AI
+- 9 Treasure Chests
+
+Main{}
+
+---------------------
+Player{
+public:
+
+private:
+    x_position
+    y_position
+}
+Move(char wasd) {
+    switch(wasd) {
+        case 'w' : move forward
+        break;
+        case 'a' : move left
+        break;
+        case 's' : move backward
+        break;
+        case 'd' : move right
+    }
+}
+Attack() {
+
+}
+PickUp();
+Check Collision();
+---------------------
+Map{}
+struct Space {
+    Object object;
+}
+GenerateMap(player, enemies[], treasure[]) {
+
+    for(i = 0; i < map.height ; i++) {
+        for(j = 0; j < map.length; j+) {
+            
+            if(player coordinates == i, j) {
+                cout << "[" << player << "]";
+            } else if (enemy == i,j) {
+                cout << "[" << unit << "]";
+            } else {
+                cout << "[" << space << "]";
+
+            }
+        }
+    }
+
+}
+
+UpdateMap(UnitType player/enemy, char direction) {
+    if(player) {
+        use direction to update player position on map;
+    } else {
+        update enemy positions
+    }
+}
+
+PlayerVision() {
+    // 2 forward, 1 left, 1 right
+}
+EnemyVision();
+---------------------
+Enemy{}
+AutoMove();
+// Move linearly until space intersection and then randomly choose
+to maintain direction or turn in intersection
+
+
+AutoAttack();
+Check Collision();
+---------------------
+Treasure{}
+
+
+
+Sample Map (w/o Fog of War):
+[P][ ][ ][ ][ ][ ][E][ ][ ]
+[ ][X][ ][ ][X][ ][ ][X][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][X][ ][ ][X][ ][ ][X][ ]
+[ ][ ][ ][ ][ ][E][ ][ ][ ]
+[ ][ ][E][ ][ ][ ][ ][ ][ ]
+[ ][X][ ][ ][X][ ][ ][X][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ]

@@ -23,7 +23,3 @@ int Player::GetCol() {
 char Player::GetID() {
 	return ID;
 }
-
-//Player::Position* Player::getPosition() {
-//	return pos;
-//}

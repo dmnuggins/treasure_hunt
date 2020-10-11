@@ -1,5 +1,8 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <stdlib.h>
+#include <time.h>
 
 #include "Player.h"
 #include "Map.h"
@@ -12,8 +15,55 @@ const int ROOM_COORDINATES[9][2] = {
 	{7,1} , {7,4} , {7,7}
 };
 
+
+
 Map::Map() {
+	SetTreasureRoom();
+}
+
+void Map::SetTreasureRoom() {
+	srand(time(0));
+	int random = rand() % 9;
+	cout << "Random Num: " << random << endl;
+	treasure.row = ROOM_COORDINATES[random][0];
+	treasure.col = ROOM_COORDINATES[random][1];
+}
+
+void Map::PrintMap(Player& player) {
+	char map[9][9] = {};
+
 	
+	cout << "Treasure.row: " << treasure.row << endl;
+	cout << "Treasure.col: " << treasure.col << endl;
+
+	for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++)
+		{
+			// -- change condition to check when player coord == room coord --
+			if (i == player.GetRow() && j == player.GetCol()) {
+				cout << "[" << player.GetID() << "]";
+			}
+			else if (CheckRooms(i, j)) {
+				if (CheckTreasure(i, j)) {
+					cout << "[T]";
+				}
+				else {
+					cout << "[R]";
+				}
+			}
+			else {
+				cout << "[" << map[i][j] << "]";
+			}
+			// -- change condition to check when player coord == room coord --
+
+		}
+		cout << endl;
+	}
+	cout << "row: " << player.GetRow() << endl;
+	cout << "row: " << player.GetCol() << endl;
+	cout << "isContained: " << player.isContained << endl;
+
+
 }
 
 void Map::MovePlayer(Player& player, char direction) {
@@ -42,34 +92,6 @@ void Map::MovePlayer(Player& player, char direction) {
 	default:
 		break;
 	}
-	
-}
-
-void Map::PrintMap(Player& player) {
-	char map[9][9] = {};
-
-	for (int i = 0; i < 9; i++) {
-		for (int j = 0; j < 9; j++)
-		{
-			// -- change condition to check when player coord == room coord --
-			if (i == player.GetRow() && j == player.GetCol()) {
-				cout << "[" << player.GetID() << "]";
-			}
-			else if (CheckRooms(i, j)) {
-				cout << "[R]";
-			}
-			else {
-				cout << "[" << map[i][j] << "]";
-			}
-			// -- change condition to check when player coord == room coord --
-
-		}
-		cout << endl;
-	}
-	cout << "row: " << player.GetRow() << endl;
-	cout << "row: " << player.GetCol() << endl;
-	cout << "isContained: " << player.isContained << endl;
-
 
 }
 
@@ -88,6 +110,17 @@ bool Map::CheckRooms(int row, int col) {
 	}
 	return false;
 }
+
+//checks if the passed in coordinate matches the designated treasure coordinates
+bool Map::CheckTreasure(int row, int col) {
+	for (int i = 0; i < 9; i++) {
+		if (treasure.row == row && treasure.col == col) {
+			return true;
+		}
+	}
+	return false;
+}
+
 
 // checks if the player is breaking any boundaries (room/edge of map)
 bool Map::NotColliding(Player& player, char direction){

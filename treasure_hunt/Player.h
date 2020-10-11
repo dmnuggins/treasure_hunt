@@ -3,7 +3,6 @@
 class Player {
 public:
 	Player();
-	bool CheckBounds(int coordinate);
 	int GetRow();
 	int GetCol();
 	char GetID();
@@ -11,7 +10,4 @@ public:
 	int row, col;
 	bool isContained;
 	char ID;
-
-private:
-
 };
